@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>권상현 — SangHyeon Kwon</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: #111;
+    background: #eee;
+    line-height: 1.6;
+    font-size: 13.5px;
+  }
+
+  /* ── Language toggle ── */
+  .lang-toggle {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+  }
+
+  .lang-btn {
+    display: flex;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+
+  .lang-btn button {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 5px 14px;
+    border: none;
+    cursor: pointer;
+    background: #fff;
+    color: #999;
+    transition: all 0.15s;
+  }
+
+  .lang-btn button.active {
+    background: #111;
+    color: #fff;
+  }
+
+  .lang-btn button:first-child {
+    border-right: 1px solid #d0d0d0;
+  }
+
+  /* ── i18n ── */
+  .en { display: none; }
+  body.lang-en .ko { display: none; }
+  body.lang-en .en { display: inline; }
+  body.lang-en p.en,
+  body.lang-en li.en,
+  body.lang-en div.en { display: block; }
+  body.lang-en span.en { display: inline; }
+
+  .page {
+    position: relative;
+    max-width: 820px;
+    margin: 40px auto;
+    background: #fff;
+    box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+  }
+
+  /* ── Header ── */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .header-left {
+    padding: 44px 40px 36px;
+    border-right: 1px solid #e0e0e0;
+  }
+
+  .header-left h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .header-left .en-name {
+    font-weight: 400;
+    font-size: 14px;
+    color: #888;
+    margin-top: 2px;
+  }
+
+  .header-right {
+    padding: 44px 40px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .contact-row {
+    display: flex;
+    font-size: 12.5px;
+    gap: 8px;
+  }
+
+  .contact-row .label {
+    color: #aaa;
+    width: 60px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    padding-top: 1px;
+  }
+
+  .contact-row a {
+    color: #111;
+    text-decoration: none;
+  }
+
+  .contact-row a:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Section Label ── */
+  .label-tag {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+    margin-bottom: 16px;
+  }
+
+  /* ── Row (2-col split) ── */
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .row > .col {
+    padding: 32px 40px;
+  }
+
+  .row > .col:first-child {
+    border-right: 1px solid #e0e0e0;
+  }
+
+  /* ── Full width row ── */
+  .row-full {
+    padding: 32px 40px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  /* ── Timeline ── */
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  .timeline-item:last-child { margin-bottom: 0; }
+
+  .timeline-date {
+    color: #999;
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    padding-top: 1px;
+  }
+
+  .timeline-text {
+    color: #111;
+    font-weight: 500;
+  }
+
+  /* ── Prose ── */
+  .prose {
+    color: #444;
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
+
+  .prose p { margin-bottom: 10px; }
+  .prose p:last-child { margin-bottom: 0; }
+
+  /* ── Skills ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .skills-grid > div:first-child {
+    padding-right: 32px;
+    border-right: 1px solid #e0e0e0;
+  }
+
+  .skills-grid > div:last-child {
+    padding-left: 32px;
+  }
+
+  .expertise-list {
+    list-style: none;
+  }
+
+  .expertise-list li {
+    position: relative;
+    padding-left: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #444;
+    line-height: 1.55;
+  }
+
+  .expertise-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 4px;
+    height: 4px;
+    background: #ccc;
+    border-radius: 50%;
+  }
+
+  .skill-group {
+    margin-bottom: 14px;
+  }
+
+  .skill-group:last-child { margin-bottom: 0; }
+
+  .skill-group-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #aaa;
+    margin-bottom: 6px;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .tag {
+    font-size: 11.5px;
+    padding: 3px 9px;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    color: #333;
+  }
+
+  /* ── Project ── */
+  .project {
+    margin-bottom: 28px;
+  }
+
+  .project:last-of-type { margin-bottom: 0; }
+
+  .project-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+  }
+
+  .project-name {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .project-date {
+    font-size: 11px;
+    color: #aaa;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .project-sub {
+    font-size: 12.5px;
+    color: #888;
+    margin-bottom: 12px;
+  }
+
+  .project-sub a {
+    color: #555;
+    text-decoration: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .project-desc {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 12px;
+    line-height: 1.65;
+  }
+
+  .project-desc:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ── Trading ── */
+  .trading-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: #e0e0e0;
+    border: 1px solid #e0e0e0;
+  }
+
+  .trading-cell {
+    background: #fff;
+    padding: 16px 18px;
+  }
+
+  .trading-cell strong {
+    display: block;
+    font-size: 12px;
+    color: #111;
+    margin-bottom: 4px;
+  }
+
+  .trading-cell p {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.5;
+  }
+
+  .footer-quote {
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 16px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: #fff; }
+    .lang-toggle { display: none; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      max-width: 100%;
+    }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 680px) {
+    body { font-size: 13px; }
+
+    .lang-toggle {
+      top: 10px;
+      right: 10px;
+    }
+
+    .page {
+      margin: 0;
+      box-shadow: none;
+    }
+
+    .header {
+      grid-template-columns: 1fr;
+    }
+
+    .header-left {
+      padding: 28px 24px 20px;
+      border-right: none;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .header-right {
+      padding: 20px 24px 24px;
+    }
+
+    .row {
+      grid-template-columns: 1fr;
+    }
+
+    .row > .col {
+      padding: 24px;
+    }
+
+    .row > .col:first-child {
+      border-right: none;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .row-full {
+      padding: 24px;
+    }
+
+    .skills-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .skills-grid > div:first-child {
+      padding-right: 0;
+      border-right: none;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .skills-grid > div:last-child {
+      padding-left: 0;
+    }
+
+    .trading-cols {
+      grid-template-columns: 1fr 1fr !important;
+    }
+
+    .project-head {
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .timeline-item {
+      grid-template-columns: 80px 1fr;
+      gap: 8px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .trading-cols {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Language Toggle -->
+  <div class="lang-toggle">
+    <div class="lang-btn">
+      <button id="btn-ko" class="active" onclick="setLang('ko')">KR</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>권상현</h1>
+      <div class="en-name">SangHyeon Kwon</div>
+    </div>
+    <div class="header-right">
+      <div class="contact-row">
+        <span class="label">Email</span>
+        <a href="mailto:kwonsanghyeon3245@naver.com">kwonsanghyeon3245@naver.com</a>
+      </div>
+      <div class="contact-row">
+        <span class="label">Phone</span>
+        <span>010-3346-3245</span>
+      </div>
+      <div class="contact-row">
+        <span class="label">GitHub</span>
+        <a href="https://github.com/SangHyeonKwon">github.com/SangHyeonKwon</a>
+      </div>
+      <div class="contact-row">
+        <span class="label">Tg</span>
+        <a href="https://t.me/perfect_attendance">@perfect_attendance</a>
+      </div>
+      <div class="contact-row">
+        <span class="label">Blog</span>
+        <a href="https://velog.io/@kshyun3245/posts">velog.io/@kshyun3245</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 약력 | 자기소개 -->
+  <div class="row">
+    <div class="col">
+      <div class="label-tag"><span class="ko">약력</span><span class="en">Background</span></div>
+      <div class="timeline-item">
+        <div class="timeline-date">2022 ~</div>
+        <div class="timeline-text">
+          <span class="ko">세종대학교 컴퓨터공학과 재학</span>
+          <span class="en">Sejong University, Computer Science</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2023 — 2024</div>
+        <div class="timeline-text">
+          <span class="ko">대한민국 해병대 만기전역</span>
+          <span class="en">ROK Marine Corps, Honorable Discharge</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2026.01 ~</div>
+        <div class="timeline-text">
+          <span class="ko">BAY 블록체인 학회 17기 — Grants 팀</span>
+          <span class="en">BAY Blockchain Society 17th — Grants Team</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2026.04 ~</div>
+        <div class="timeline-text">Midnight Network Core Ambassador</div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="label-tag"><span class="ko">자기소개</span><span class="en">About</span></div>
+      <div class="prose">
+        <p class="ko">블록체인 기술이 주목받던 시기, 그 기반 구조를 제대로 이해하고 싶다는 호기심에서 시작했습니다. 처음에는 개념 자체가 어려워 블로그에 정리하며 하나씩 익혔고, 그 과정에서 프로토콜 설계라는 기술 자체에 빠져들었습니다.</p>
+        <p class="en">Started from a curiosity to truly understand the underlying architecture when blockchain technology was gaining attention. Documented concepts through blog posts, and in the process fell deeply into protocol design itself.</p>
+        <p class="ko">개발은 항상 직접 체험하며 배웁니다. 트레이딩, 차익거래, 온체인 활동 모두 내 돈을 넣고 직접 해보면서 구조를 체득하는 방식으로 역량을 쌓아왔습니다.</p>
+        <p class="en">I learn by doing. Trading, arbitrage, on-chain activities — all built with my own capital on the line, internalizing how systems actually work from the inside.</p>
+        <p class="ko">엔지니어로서의 목표는 블록체인의 보편화입니다. 시스템 자체에 대한 신뢰가 뒷받침되어야 한다고 생각하며, Trustless라는 철학을 지키면서 로우 레벨에서 기여하는 엔지니어가 되고 싶습니다.</p>
+        <p class="en">My goal as an engineer is mainstream blockchain adoption. I believe this requires trust embedded in the system itself — I want to contribute at the low level while upholding the Trustless philosophy.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 관심 분야 -->
+  <div class="row-full">
+    <div class="label-tag"><span class="ko">관심 분야</span><span class="en">Areas of Interest</span></div>
+    <div class="trading-cols" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+      <div class="trading-cell">
+        <strong>MEV</strong>
+        <p class="ko">생태계 작동의 신호이자 개인에게는 피해 — 로우 레벨에서의 구조적 완화가 필요</p>
+        <p class="en">A sign of a functioning ecosystem, yet harmful to individuals — structural mitigation at the low level is needed</p>
+      </div>
+      <div class="trading-cell">
+        <strong>zkEVM</strong>
+        <p class="ko">밸리데이터 연산 부담 감소로 더 많은 개인이 참여 가능한 Trustless 탈중앙화 확장</p>
+        <p class="en">Reducing validator compute burden so more individuals can participate — Trustless decentralization at scale</p>
+      </div>
+      <div class="trading-cell">
+        <strong>AI Agent Payment</strong>
+        <p class="ko">AI의 자율 결제에서 블록체인은 유일한 Trustless 인프라 — permissionless 지갑의 교차점</p>
+        <p class="en">Blockchain as the only Trustless infrastructure for autonomous AI payments — the intersection of permissionless wallets</p>
+      </div>
+      <div class="trading-cell">
+        <strong>RWA</strong>
+        <p class="ko">오프체인 자산의 온체인 독립 검증 — 제3자 신뢰 없는 투명한 가치 증명</p>
+        <p class="en">Independent on-chain verification of off-chain assets — transparent proof of value without third-party trust</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 핵심 역량 -->
+  <div class="row-full">
+    <div class="label-tag"><span class="ko">핵심 역량</span><span class="en">Core Competencies</span></div>
+    <div class="skills-grid">
+      <div>
+        <ul class="expertise-list">
+          <li class="ko">트랜잭션 순서 결정과 합의 알고리즘이 MEV에 미치는 구조적 영향 분석 (EVM, Solana 양쪽 경험)</li>
+          <li class="en">Analysis of how transaction ordering and consensus algorithms structurally impact MEV (experience on both EVM and Solana)</li>
+          <li class="ko">EVM 실행 환경 내부 구조: 가스 경제학, Mempool 설계, Flash Loan 메커니즘</li>
+          <li class="en">EVM execution internals: gas economics, mempool design, flash loan mechanics</li>
+          <li class="ko">DeFi 프로토콜 설계에 필요한 수학적 기초: AMM (Constant Product, Concentrated Liquidity), CLOB, Perpetual</li>
+          <li class="en">Mathematical foundations for DeFi protocol design: AMM (Constant Product, Concentrated Liquidity), CLOB, Perpetuals</li>
+          <li class="ko">Rust 기반 고성능 블록 데이터 파이프라인 설계: 동시 처리, crash recovery, REST API 구현</li>
+          <li class="en">High-performance block data pipelines in Rust: concurrent processing, crash recovery, REST API implementation</li>
+        </ul>
+      </div>
+      <div>
+        <div class="skill-group">
+          <div class="skill-group-label"><span class="ko">언어</span><span class="en">Languages</span></div>
+          <div class="skill-tags">
+            <span class="tag">TypeScript</span>
+            <span class="tag">Python</span>
+            <span class="tag">Solidity</span>
+            <span class="tag">Rust</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label">EVM / Solana</div>
+          <div class="skill-tags">
+            <span class="tag">Hardhat</span>
+            <span class="tag">Foundry</span>
+            <span class="tag">Aave V3</span>
+            <span class="tag">Uniswap V3/V2</span>
+            <span class="tag">Helius gRPC</span>
+            <span class="tag">Jito Bundle API</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label"><span class="ko">프레임워크 / 인프라</span><span class="en">Frameworks / Infra</span></div>
+          <div class="skill-tags">
+            <span class="tag">Tokio</span>
+            <span class="tag">NestJS</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">React</span>
+            <span class="tag">viem</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">Docker</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 프로젝트 -->
+  <div class="row-full">
+    <div class="label-tag"><span class="ko">프로젝트</span><span class="en">Projects</span></div>
+
+    <div class="project">
+      <div class="project-head">
+        <span class="project-name">Flash Loan Arbitrage Scanner</span>
+        <span class="project-date">2025.10 — 2026.01</span>
+      </div>
+      <div class="project-sub">
+        <a href="https://github.com/SangHyeonKwon/MEV_Monitoring">GitHub</a>
+      </div>
+      <div class="project-desc">
+        <span class="ko">Aave V3 Flash Loan 기반 무자본 Cross-DEX 차익거래 스캐너. Solidity 스마트 컨트랙트를 Ethereum Mainnet에 직접 배포. 1inch, ParaSwap, Uniswap V3/V2 등 멀티소스 가격 집계 후 단일 TX로 원자적 실행.</span>
+        <span class="en">Zero-capital Cross-DEX arbitrage scanner powered by Aave V3 Flash Loans. Solidity smart contract deployed directly to Ethereum Mainnet. Multi-source price aggregation (1inch, ParaSwap, Uniswap V3/V2) with atomic single-TX execution.</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <span class="project-name">solana-sandwich-detector</span>
+        <span class="project-date">2026.04 — <span class="ko">현재</span><span class="en">Present</span></span>
+      </div>
+      <div class="project-sub">
+        <a href="https://github.com/SangHyeonKwon/solana-sandwich-detector">GitHub</a>
+      </div>
+      <div class="project-desc">
+        <span class="ko">Rust 오픈소스 Solana 샌드위치 공격 감지 라이브러리 & CLI. 8개 DEX 파서, same-block/cross-slot 감지, Jito 번들 추적. 6개 크레이트 workspace 아키텍처.</span>
+        <span class="en">Open-source Rust library & CLI for detecting Solana sandwich attacks. 8 DEX parsers, same-block/cross-slot detection, Jito bundle tracking. 6-crate workspace architecture.</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <span class="project-name"><span class="ko">freqtrade (커스텀 트레이딩 봇)</span><span class="en">freqtrade (Custom Trading Bot)</span></span>
+        <span class="project-date">2025.06 — 2025.12</span>
+      </div>
+      <div class="project-sub">
+        <a href="https://github.com/SangHyeonKwon/freqtrade">GitHub</a>
+      </div>
+      <div class="project-desc">
+        <span class="ko">Binance 선물 자동매매 시스템. 선형회귀 기반 추세선 감지 엔진과 4가지 전략 직접 설계. 6개월간 전략 설계 → 백테스팅 → 실거래 사이클을 반복하며 정량적 트레이딩 시스템 구축.</span>
+        <span class="en">Binance Futures automated trading system. Custom linear-regression trendline detection engine with 4 self-designed strategies. 6 months of iterative strategy design → backtesting → live trading cycles.</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <span class="project-name">legend-poly-bot</span>
+        <span class="project-date">2025.12 — 2026.04</span>
+      </div>
+      <div class="project-sub">
+        <a href="https://github.com/SangHyeonKwon/legend-poly-bot">GitHub</a>
+      </div>
+      <div class="project-desc">
+        <span class="ko">Polymarket CLOB 오더북 mispricing 전략 봇 — WFA 백테스팅 기반 4D 전략 테이블</span>
+        <span class="en">Polymarket CLOB orderbook mispricing strategy bot — 4D strategy table driven by Walk-Forward Analysis backtesting</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <span class="project-name">Vigil</span>
+        <span class="project-date">2026.04 — <span class="ko">현재</span><span class="en">Present</span></span>
+      </div>
+      <div class="project-sub"><em><span class="ko">Private repo — Hackathon 기간 중</span><span class="en">Private repo — Hackathon in progress</span></em></div>
+      <div class="project-desc">
+        <span class="ko">Solana MEV 투명성 플랫폼 — Colosseum Frontier Hackathon 2026 (Infrastructure Track) 출전작</span>
+        <span class="en">Solana MEV transparency platform — Colosseum Frontier Hackathon 2026 (Infrastructure Track) entry</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <span class="project-name">defi-tx-indexer</span>
+        <span class="project-date">2026.03 — 2026.04</span>
+      </div>
+      <div class="project-sub">
+        <a href="https://github.com/SangHyeonKwon/defi-tx-indexer">GitHub</a>
+      </div>
+      <div class="project-desc">
+        <span class="ko">Rust + Tokio 기반 고성능 Ethereum DeFi 인덱서 — Uniswap V3 이벤트 ABI 디코딩, 동시 블록 처리, checkpoint crash recovery, axum REST API 제공</span>
+        <span class="en">High-performance Ethereum DeFi indexer built with Rust + Tokio — Uniswap V3 event ABI decoding, concurrent block processing, checkpoint crash recovery, axum REST API</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <span class="project-name">Block-Block-Tracker</span>
+        <span class="project-date">2026.03 — 2026.04</span>
+      </div>
+      <div class="project-sub">
+        <a href="https://github.com/SangHyeonKwon/Block-Block-Tracker">GitHub</a>
+      </div>
+      <div class="project-desc">
+        <span class="ko">김치 프리미엄 감지 봇 — 블록 네트워크 지연 모니터링, 선물 Basis 스캐너(역프리미엄 감지), 온체인 대량이체 추적 + Telegram 실시간 알림</span>
+        <span class="en">Kimchi Premium detection bot — block network latency monitoring, futures basis scanner (backwardation detection), on-chain whale transfer tracking + real-time Telegram alerts</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <span class="project-name">Base-Grants RWA</span>
+        <span class="project-date">2026.03 — <span class="ko">현재</span><span class="en">Present</span></span>
+      </div>
+      <div class="project-sub">
+        <a href="https://github.com/SangHyeonKwon/Base-Grants">GitHub</a>
+      </div>
+      <div class="project-desc">
+        <span class="ko">RWA Sentinel — Base 체인 토큰화 자산 독립 검증 인프라. Oracle 교차검증, Chainlink PoR 피드 감시, Anomaly Detection 대시보드</span>
+        <span class="en">RWA Sentinel — Independent verification infrastructure for tokenized assets on Base. Oracle cross-validation, Chainlink PoR feed monitoring, Anomaly Detection dashboard</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 트레이딩 실전 경험 -->
+  <div class="row-full">
+    <div class="label-tag"><span class="ko">트레이딩 실전 경험</span><span class="en">Hands-on Trading Experience</span></div>
+    <div class="trading-cols" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+      <div class="trading-cell">
+        <strong><span class="ko">차트 매매</span><span class="en">Chart Trading</span></strong>
+        <p class="ko">선물 기술적 분석 기반 실전 매매. ICT 방법론 중심, Neckline 패턴 병행 분석으로 진입 근거 수립</p>
+        <p class="en">Futures trading based on technical analysis. Primarily ICT methodology, combined with Neckline pattern analysis for entry confirmation</p>
+      </div>
+      <div class="trading-cell">
+        <strong><span class="ko">CEX/온체인 차익거래</span><span class="en">CEX/On-chain Arb</span></strong>
+        <p class="ko">현선·역현선·선선 갭 트레이딩, 김프 차익거래 시스템 구축. Aave V3 Flash Loan 무자본 Cross-DEX 실행</p>
+        <p class="en">Spot-Futures gap trading (cash-carry, reverse, cross-futures), Kimchi Premium arb system. Aave V3 Flash Loan zero-capital Cross-DEX execution</p>
+      </div>
+      <div class="trading-cell">
+        <strong>Solana DEX</strong>
+        <p class="ko">밈코인 트레이딩을 통해 AMM 라우팅, 슬리피지, 유동성 풀 구조를 실전 체득. Raydium, Jupiter, Pump.fun 등 다수 DEX 경험</p>
+        <p class="en">Hands-on understanding of AMM routing, slippage, and liquidity pool mechanics through memecoin trading. Experience across Raydium, Jupiter, Pump.fun and more</p>
+      </div>
+      <div class="trading-cell">
+        <strong><span class="ko">예측 시장</span><span class="en">Prediction Markets</span></strong>
+        <p class="ko">Polymarket CLOB 오더북 기반 자동매매. WFA 전략 검증 후 Maker 주문 운용</p>
+        <p class="en">Automated trading on Polymarket CLOB orderbook. Strategy validation via Walk-Forward Analysis, operating as maker</p>
+      </div>
+    </div>
+    <div class="footer-quote">
+      <span class="ko">"모든 전략은 내 자본으로 직접 실행하며 검증합니다."</span>
+      <span class="en">"Every strategy is validated by executing it with my own capital."</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function setLang(lang) {
+  document.body.classList.toggle('lang-en', lang === 'en');
+  document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+}
+</script>
+
+</body>
+</html>
