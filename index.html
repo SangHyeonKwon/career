@@ -20,18 +20,15 @@
   /* ── Language toggle ── */
   .lang-toggle {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 12px;
+    right: 12px;
     z-index: 100;
   }
 
   .lang-btn {
     display: flex;
-    border: 1px solid #d0d0d0;
-    border-radius: 4px;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    align-items: center;
+    gap: 4px;
   }
 
   .lang-btn button {
@@ -39,22 +36,21 @@
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.5px;
-    padding: 5px 14px;
+    padding: 0;
     border: none;
     cursor: pointer;
-    background: #fff;
+    background: transparent;
     color: #999;
     transition: all 0.15s;
+    line-height: 1;
   }
 
   .lang-btn button.active {
-    background: #111;
-    color: #fff;
+    background: #fff;
+    color: #111;
+    font-weight: 700;
   }
 
-  .lang-btn button:first-child {
-    border-right: 1px solid #d0d0d0;
-  }
 
   /* ── i18n ── */
   .en { display: none; }
@@ -447,6 +443,7 @@
   <div class="lang-toggle">
     <div class="lang-btn">
       <button id="btn-ko" class="active" onclick="setLang('ko')">KR</button>
+      <span style="color:#ccc;font-size:11px;line-height:1;">/</span>
       <button id="btn-en" onclick="setLang('en')">EN</button>
     </div>
   </div>
@@ -516,7 +513,7 @@
       <div class="prose">
         <p class="ko">블록체인 기술이 주목받던 시기, 그 기반 구조를 제대로 이해하고 싶다는 호기심에서 시작했습니다. 처음에는 개념 자체가 어려워 블로그에 정리하며 하나씩 익혔고, 그 과정에서 프로토콜 설계라는 기술 자체에 빠져들었습니다.</p>
         <p class="en">Started from a curiosity to truly understand the underlying architecture when blockchain technology was gaining attention. Documented concepts through blog posts, and in the process fell deeply into protocol design itself.</p>
-        <p class="ko">개발은 항상 직접 체험하며 배웁니다. 트레이딩, 차익거래, 온체인 활동 모두 내 돈을 넣고 직접 해보면서 구조를 체득하는 방식으로 역량을 쌓아왔습니다.</p>
+        <p class="ko">개발은 항상 직접 체험하며 배웁니다. 트레이딩, 차익거래, 온체인 활동 모두 제 돈을 넣고 직접 해보면서 구조를 체득하는 방식으로 역량을 쌓아왔습니다.</p>
         <p class="en">I learn by doing. Trading, arbitrage, on-chain activities — all built with my own capital on the line, internalizing how systems actually work from the inside.</p>
         <p class="ko">엔지니어로서의 목표는 블록체인의 보편화입니다. 시스템 자체에 대한 신뢰가 뒷받침되어야 한다고 생각하며, Trustless라는 철학을 지키면서 로우 레벨에서 기여하는 엔지니어가 되고 싶습니다.</p>
         <p class="en">My goal as an engineer is mainstream blockchain adoption. I believe this requires trust embedded in the system itself — I want to contribute at the low level while upholding the Trustless philosophy.</p>
@@ -561,8 +558,12 @@
           <li class="en">Analysis of how transaction ordering and consensus algorithms structurally impact MEV (experience on both EVM and Solana)</li>
           <li class="ko">EVM 실행 환경 내부 구조: 가스 경제학, Mempool 설계, Flash Loan 메커니즘</li>
           <li class="en">EVM execution internals: gas economics, mempool design, flash loan mechanics</li>
-          <li class="ko">DeFi 프로토콜 설계에 필요한 수학적 기초: AMM (Constant Product, Concentrated Liquidity), CLOB, Perpetual</li>
-          <li class="en">Mathematical foundations for DeFi protocol design: AMM (Constant Product, Concentrated Liquidity), CLOB, Perpetuals</li>
+          <li class="ko">Solidity 스마트 컨트랙트 설계부터 Ethereum Mainnet 배포까지의 프로덕션 경험</li>
+          <li class="en">Production experience from Solidity smart contract design to Ethereum Mainnet deployment</li>
+          <li class="ko">멀티체인 DEX 프로토콜 내부 파싱: instruction-level 디코딩으로 8개 DEX 트랜잭션 구조 분석 (EVM, Solana)</li>
+          <li class="en">Multi-chain DEX protocol internals: instruction-level decoding and transaction structure analysis across 8 DEXes (EVM, Solana)</li>
+          <li class="ko">DeFi 프로토콜 설계에 필요한 수학적 기초: AMM (Constant Product, Concentrated Liquidity, DLMM), CLOB, Perpetual</li>
+          <li class="en">Mathematical foundations for DeFi protocol design: AMM (Constant Product, Concentrated Liquidity, DLMM), CLOB, Perpetuals</li>
           <li class="ko">Rust 기반 고성능 블록 데이터 파이프라인 설계: 동시 처리, crash recovery, REST API 구현</li>
           <li class="en">High-performance block data pipelines in Rust: concurrent processing, crash recovery, REST API implementation</li>
         </ul>
@@ -573,8 +574,8 @@
           <div class="skill-tags">
             <span class="tag">TypeScript</span>
             <span class="tag">Python</span>
-            <span class="tag">Solidity</span>
             <span class="tag">Rust</span>
+            <span class="tag">Solidity</span>
           </div>
         </div>
         <div class="skill-group">
@@ -586,6 +587,7 @@
             <span class="tag">Uniswap V3/V2</span>
             <span class="tag">Helius gRPC</span>
             <span class="tag">Jito Bundle API</span>
+            <span class="tag">viem</span>
           </div>
         </div>
         <div class="skill-group">
@@ -595,7 +597,6 @@
             <span class="tag">NestJS</span>
             <span class="tag">Next.js</span>
             <span class="tag">React</span>
-            <span class="tag">viem</span>
             <span class="tag">PostgreSQL</span>
             <span class="tag">Docker</span>
           </div>
@@ -699,8 +700,8 @@
         <a href="https://github.com/SangHyeonKwon/Block-Block-Tracker">GitHub</a>
       </div>
       <div class="project-desc">
-        <span class="ko">김치 프리미엄 감지 봇 — 블록 네트워크 지연 모니터링, 선물 Basis 스캐너(역프리미엄 감지), 온체인 대량이체 추적 + Telegram 실시간 알림</span>
-        <span class="en">Kimchi Premium detection bot — block network latency monitoring, futures basis scanner (backwardation detection), on-chain whale transfer tracking + real-time Telegram alerts</span>
+        <span class="ko">거래소 입출금 차단(Block) 실시간 감지 봇 — 지갑 상태 폴링, 온체인 대량이체 추적으로 차단 선행 포착. 김프 모니터링·선물 Basis 스캐너 병행 + Telegram 알림</span>
+        <span class="en">Real-time exchange deposit/withdrawal block detection bot — wallet status polling, on-chain whale transfer tracking for early block signals. Kimchi Premium monitoring and futures basis scanner + Telegram alerts</span>
       </div>
     </div>
 
